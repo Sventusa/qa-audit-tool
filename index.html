@@ -1,0 +1,3131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QA Audit Tool v3.4</title>
+
+
+<style>
+
+body,
+.header,
+.sidebar,
+.main,
+.card,
+.section,
+.section-header,
+input,
+textarea,
+select,
+.utility-btn,
+.score-btn,
+.result-banner{
+    transition:
+      background-color 0.4s ease,
+      color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f5f0ff;
+}
+
+.header{
+    background:#ffffff;
+    padding:15px 25px;
+    border-bottom:1px solid #e2ddff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header{
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.header h2{
+    color:#5a3ff2;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:320px 1fr;
+    height:calc(100vh - 70px);
+}
+
+.sidebar{
+    background:#faf8ff;
+    border-right:1px solid #e0d9ff;
+    overflow-y:auto;
+    padding:15px;
+}
+
+.main{
+    padding:15px;
+    overflow-y:auto;
+    background:#f9f6ff;
+}
+
+.card{
+    background:white;
+    border:1px solid #e2ddff;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:12px;
+    box-shadow:0 4px 10px rgba(90,63,242,0.05);
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    margin-bottom:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+textarea{
+    resize:vertical;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:12px;
+    text-align:center;
+}
+
+.stat-value{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.result-banner{
+    background:#e8f5e9;
+    border:1px solid #a5d6a7;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.section{
+    background:white;
+    border:1px solid #e2ddff;
+    border-radius:12px;
+    margin-bottom:12px;
+     box-shadow:0 4px 10px rgba(90,63,242,0.05);
+}
+
+.section-header{
+
+    padding:15px;
+    cursor:pointer;
+    font-weight:600;
+    background:#f3efff;
+    border-left:5px solid #7b5cff;
+
+}
+
+.section-body{
+    padding:15px;
+    border-top:1px solid #eee;
+}
+
+.milestone{
+    border-bottom:1px solid #eee;
+    padding:10px 0;
+}
+
+.milestone:last-child{
+    border-bottom:none;
+}
+
+.button-row{
+    margin-top:8px;
+}
+
+.score-btn{
+    border:none;
+    padding:8px 12px;
+    margin-right:5px;
+    border-radius:20px;
+    cursor:pointer;
+    color:white;
+}
+
+.score-btn{
+
+    border:1px solid #cfcfcf;
+    background:white;
+    color:#444;
+    padding:8px 12px;
+    border-radius:20px;
+    cursor:pointer;
+    margin-right:5px;
+
+}
+
+.score-btn.selected-pass{
+
+    background:#2e7d32;
+    color:white;
+    border-color:#2e7d32;
+
+}
+
+.score-btn.selected-fail{
+
+    background:#c62828;
+    color:white;
+    border-color:#c62828;
+
+}
+
+.score-btn.selected-coaching{
+
+    background:#f9a825;
+    color:white;
+    border-color:#f9a825;
+
+}
+
+.score-btn.selected-na{
+
+    background:#757575;
+    color:white;
+    border-color:#757575;
+
+}
+.utility-btn{
+    background:#5a3ff2;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+.hidden{
+    display:none;
+}
+
+#postText{
+    height:600px;
+}
+
+.login-screen{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg, #f5f0ff, #e6dbff);
+}
+
+.login-box{
+    background:white;
+    padding:40px;
+    border-radius:14px;
+    width:340px;
+    box-shadow:0 10px 25px rgba(90,63,242,0.15);
+    text-align:center;
+    transition:0.3s;
+}
+
+.login-box:hover{
+    transform:translateY(-3px);
+}
+
+.login-title{
+    color:#5a3ff2;
+    margin-bottom:10px;
+}
+
+.login-input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:#faf8ff;
+    transition:0.2s;
+}
+
+.login-input:focus{
+    outline:none;
+    border-color:#5a3ff2;
+    background:#ffffff;
+}
+
+.login-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#5a3ff2;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#4832d4;
+}
+
+.login-subtext{
+    color:#666;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.show-password{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:15px;
+    font-size:14px;
+    color:#555;
+}
+
+.show-password input{
+    width:auto;
+    cursor:pointer;
+}
+
+body.dark-mode .login-box{
+    background:#1a1a22;
+    box-shadow:0 10px 25px rgba(0,0,0,0.6);
+}
+
+body.dark-mode .login-title{
+    color:#a78bfa;
+}
+
+body.dark-mode .login-subtext{
+    color:#aaa;
+}
+
+body.dark-mode .login-input{
+    background:#1f1f29;
+    color:#ffffff;           
+    border:1px solid #3a3a48;
+}
+
+body.dark-mode .login-input::placeholder{
+    color:#888;              
+}
+
+body.dark-mode .login-input:focus{
+    border-color:#7c5cff;
+    box-shadow:0 0 5px rgba(124,92,255,0.5);
+    background:#22222c;      
+}
+
+body.dark-mode .login-btn{
+    background:#6d5cff;
+}
+
+body.dark-mode .login-btn:hover{
+    background:#7c6cff;
+}
+
+.result-pass{
+    background:#e8f5e9;
+    border:1px solid #a5d6a7;
+    color:#2e7d32;
+}
+
+.result-coaching{
+    background:#fff9c4;
+    border:1px solid #fdd835;
+    color:#f57f17;
+}
+
+.result-missed{
+    background:#ffe0b2;
+    border:1px solid #fb8c00;
+    color:#e65100;
+}
+
+.result-fail{
+    background:#ffebee;
+    border:1px solid #e53935;
+    color:#b71c1c;
+}
+
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.theme-switch{
+  position: relative;
+  width: 50px;
+  height: 26px;
+}
+
+.theme-switch input{
+  display:none;
+}
+
+.slider{
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 34px;
+  inset: 0;
+  transition: 0.3s;
+}
+
+.slider:before{
+  content: "🌙";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 2px;
+  top: 2px;
+  background: white;
+  border-radius: 50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:12px;
+  transition: 0.3s;
+}
+
+.theme-switch input:checked + .slider{
+  background-color: #5a3ff2;
+}
+
+.theme-switch input:checked + .slider:before{
+  transform: translateX(24px);
+  content: "☀️";
+}
+
+.action-bar{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    padding:10px 20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+body.dark-mode{
+    background:#0f0f14;
+    color:#e4e4e7;
+}
+
+body.dark-mode .header{
+    background:#15151d;
+    border-bottom:1px solid #2a2a35;
+    box-shadow:0 2px 10px rgba(0,0,0,0.6);
+}
+
+body.dark-mode .header h2{
+    color:#a78bfa; /* soft purple glow */
+}
+
+body.dark-mode .sidebar{
+    background:#14141a;
+    border-right:1px solid #2a2a35;
+}
+
+body.dark-mode .main{
+    background:#101016;
+}
+
+body.dark-mode .card{
+    background:#1a1a22;
+    border:1px solid #2a2a35;
+    box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+
+body.dark-mode .section{
+    background:#181820;
+    border:1px solid #2a2a35;
+}
+
+body.dark-mode .section-header{
+    background:#20202a;
+    color:#d6d6f0;
+    border-left:4px solid #7c5cff;
+    box-shadow:inset 0 0 5px rgba(124,92,255,0.2);
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select{
+    background:#1f1f29;
+    border:1px solid #3a3a48;
+    color:#fff;
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus{
+    border-color:#7c5cff;
+    box-shadow:0 0 5px rgba(124,92,255,0.5);
+    outline:none;
+}
+
+body.dark-mode .utility-btn{
+    background:#6d5cff;
+    box-shadow:0 2px 6px rgba(0,0,0,0.4);
+}
+
+body.dark-mode .utility-btn:hover{
+    background:#7c6cff;
+    transform:translateY(-1px);
+}
+
+body.dark-mode .score-btn{
+    background:#2a2a35;
+    color:#ddd;
+    border:1px solid #3a3a48;
+}
+
+body.dark-mode .score-btn.selected-pass{
+    background:#2e7d32;
+    color:white;
+    border-color:#2e7d32;
+}
+
+body.dark-mode .score-btn.selected-fail{
+    background:#c62828;
+    color:white;
+    border-color:#c62828;
+}
+
+body.dark-mode .score-btn.selected-coaching{
+    background:#f9a825;
+    color:white;
+    border-color:#f9a825;
+}
+
+body.dark-mode .score-btn.selected-na{
+    background:#757575;
+    color:white;
+    border-color:#757575;
+}
+
+body.dark-mode .stat{
+    background:#1a1a22;
+    border:1px solid #2a2a35;
+}
+
+body.dark-mode .theme-switch input:checked + .slider{
+    background:linear-gradient(135deg, #7c5cff, #9f7aea);
+}
+
+body.dark-mode .result-banner{
+    border-radius:12px;
+    font-weight:bold;
+}
+
+body.dark-mode .result-pass{
+    background:#1b3a28;
+    border:1px solid #2e7d32;
+    color:#81c784;
+}
+
+body.dark-mode .result-coaching{
+    background:#3e3210;
+    border:1px solid #f9a825;
+    color:#ffd54f;
+}
+
+body.dark-mode .result-missed{
+    background:#4a2c10;
+    border:1px solid #fb8c00;
+    color:#ffb74d;
+}
+
+body.dark-mode .result-fail{
+    background:#4a1c1c;
+    border:1px solid #e53935;
+    color:#ef9a9a;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div id="loginScreen" class="login-screen">
+
+<div class="login-box">
+
+<h2 class="login-title">TRIBU WAKWAK</h2>
+
+<p class="login-subtext">
+  Welcome katribu! Please sign in to continue
+</p>
+
+<input id="username" placeholder="Username" class="login-input">
+
+<input id="password" type="password" placeholder="Password" class="login-input">
+
+<div class="show-password">
+  <input type="checkbox" onclick="togglePassword()" id="showPass">
+  <label for="showPass">Show Password</label>
+</div>
+
+<button type="button" class="login-btn" onclick="login()">Sign in</button>
+
+<p id="loginError" style="color:#c62828; font-size:13px;"></p>
+
+</div>
+
+</div>
+
+<div id="appContainer" style="display:none;">
+  
+
+
+<div class="header">
+
+
+  <div id="modeToggle" style="display:flex; gap:5px;">
+    <button class="score-btn selected-pass" onclick="setMode(this,'normal')">
+      Normal
+    </button>
+    <button class="score-btn" onclick="setMode(this,'tyson')">
+      Tyson Team
+    </button>
+  </div>
+
+   <h2>Audit Form</h2>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+
+    <div id="userDisplay" style="font-size:12px; color:#555;"></div>
+
+    <button class="utility-btn" onclick="saveDraft()">Save Draft</button>
+    <button class="utility-btn" onclick="loadDraft()">Load Draft</button>
+    <button class="utility-btn" onclick="resetAudit()">Reset Audit</button>
+    <button class="utility-btn" onclick="generateSmartPost()">Generate Post</button>
+    <button class="utility-btn" onclick="logout()">Logout</button>
+
+    <label class="theme-switch">
+      <input type="checkbox" onclick="toggleDarkMode()">
+      <span class="slider"></span>
+    </label>
+
+  </div>
+
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="card">
+
+<h3>Audit Details</h3>
+
+<input id="manager" placeholder="Manager">
+
+<input id="lc" placeholder="Loan Consultant">
+
+<input id="auditId" placeholder="Audit ID">
+
+<input id="state" placeholder="State">
+
+<input id="savings" placeholder="Savings">
+
+
+</div>
+
+<div class="card">
+
+<h3>Pitch</h3>
+
+<textarea id="pitch"></textarea>
+
+<h3>Product Sold</h3>
+
+<input id="productSold">
+
+<h3>Strengths Observed</h3>
+
+<textarea id="strengths"></textarea>
+
+<h3>Additional Coaching</h3>
+
+<textarea id="additionalCoaching"></textarea>
+</div>
+
+<div class="card">
+
+<button class="utility-btn" onclick="showTab('audit')">Audit</button>
+
+<button class="utility-btn" onclick="showTab('autofail')">AutoFails</button>
+
+<button class="utility-btn" onclick="showTab('post')">Post</button>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div id="auditTab">
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-value" id="passCount">0</div>
+PASS
+</div>
+
+<div class="stat">
+<div class="stat-value" id="failCount">0</div>
+FAIL
+</div>
+
+<div class="stat">
+<div class="stat-value" id="coachCount">0</div>
+COACHING
+</div>
+
+<div class="stat">
+<div class="stat-value" id="naCount">0</div>
+N/A
+</div>
+
+<div class="stat">
+<div class="stat-value" id="autoFailCount">0</div>
+
+AUTOFAIL
+</div>
+
+</div>
+
+<div class="result-banner">
+
+Current Result: <span id="auditResult">PASS</span>
+
+</div>
+
+<div id="sectionsContainer"></div>
+
+</div>
+
+<div id="autofailTab" class="hidden">
+
+<div class="card">
+
+<h3>AutoFail Checklist</h3>
+
+<label>
+<input type="checkbox" class="autofail" value="Mandatory Disclosure Missed">
+Mandatory Disclosure Missed
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="Rate Not Disclosed">
+Rate Not Disclosed
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="Term Not Disclosed">
+Term Not Disclosed
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="Payment Not Disclosed">
+Payment Not Disclosed
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="Products Not Disclosed">
+Products Not Disclosed
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="EDGE Not Offered">
+EDGE Not Offered
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="Multiple Terms Presented">
+Multiple Terms Presented
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="No Objection Ask">
+No Objection Ask
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="No Rebuttal Attempt">
+No Rebuttal Attempt
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="No Intent To Close">
+No Intent To Close
+</label><br>
+
+<label>
+<input type="checkbox" class="autofail" value="MD Not Read">
+MD Not Read
+</label>
+
+</div>
+
+</div>
+
+<div id="postTab" class="hidden">
+
+<div class="card">
+
+<button class="utility-btn" onclick="copyPost()">
+Copy Summary
+</button>
+
+<textarea id="postText"></textarea>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleDarkMode(){
+
+  const isDark = document.body.classList.toggle("dark-mode");
+
+  localStorage.setItem("darkMode", isDark);
+
+    const toggle = document.querySelector(".theme-switch input");
+  if(toggle){
+    toggle.checked = isDark;
+  }
+
+}
+
+let auditMode = "normal";
+
+
+const users = {
+  "john": {
+    password: "S3v_3569**",
+    defaultMode: "normal"
+  },
+  "joe": {
+    password: "1234",
+    defaultMode: "tyson"
+  },
+  "khent": {
+    password: "1234",
+    defaultMode: "normal"
+  },
+  "ryan": {
+    password: "1234",
+    defaultMode: "normal"
+  },
+  "jerome": {
+    password: "696969",
+    defaultMode: "normal"
+  },
+  "jovie": {
+    password: "1234",
+    defaultMode: "normal"
+  }
+};
+
+const sections = {
+
+"Intro / Recording Disclosure":[
+"Confirm Name of Person",
+"Congratulate",
+"Call Recording Disclosure",
+"Identify AA and Yourself"
+],
+
+"Branding Statement":[
+  "Branding Statement Input"
+],
+
+"Process Overview":[
+"First Time Refinancing",
+"Ask a few Questions",
+"Benefits To Refinancing",
+"Ask Customer To Find RIC",
+"Explain Refunds"
+],
+
+"Discovery":[
+"How Long Keeping Vehicle",
+"Did You Purchase GAP",
+"Confirm Miles/Warranty Status",
+"Warranty Discovery"
+],
+
+"Quick Value Build":[
+"Value Build Configuration"
+],
+
+"Option Pitch":[
+"Front Load Disclosure",
+"Option Pitch Disclosure"
+],
+
+"Pitch":[
+"Pre-Pitch Benefits",
+"Mandatory Disclosure",
+"Rate Disclosure",
+"Term Disclosure",
+"Payment Disclosure",
+"Product Disclosure"
+],
+
+"Benefits Recap":[
+"Lower Rate",
+"Lower Payment",
+"Skipped Payments",
+"Product Refunds",
+"Personal Story",
+"Ownership Time Reference"
+],
+
+"Objection Handling":[
+"Objection Configuration"
+],
+
+"Additional Questions":[
+  "HLKV",
+  "HLKV Used in Value Build",
+  "HLKV Used in Benefits Recap"
+],
+
+"EDGE Offer":[
+"Premium Wheels",
+"Keyless Entry",
+"Prior Wheel/Tire Replacement",
+"EDGE Pitch"
+],
+
+"One Call Close":[
+"Collect Drivers License",
+"Confirm Address",
+"Confirm Email",
+"Verify Income",
+"Vehicle Registration",
+"Bookout Complete",
+"Send Stips Text"
+],
+
+"Doc Process":[
+"Printer Access",
+"Notary Access",
+"Docusign",
+"POA",
+"Title Documents",
+"Next Payment Due",
+"UPS Tie Down"
+],
+
+"Closing Statement":[
+"Recap Payment",
+"Recap Rate",
+"Recap Term",
+"Recap Products",
+"Opt Out Language"
+]
+
+};
+
+const missedNarratives = {
+
+"Identify AA and Yourself":
+"Intro: Failed to identify Auto Approve and themselves.",
+
+"Confirm Name of Person":
+"Intro: Failed to confirm the customer's identity.",
+
+"Congratulate":
+"Intro: Failed to congratulate the customer.",
+
+"Call Recording Disclosure":
+"Intro: Failed to provide call recording disclosure.",
+
+"First Time Refinancing":
+"Process Overview: Failed to determine whether this was the customer's first refinance.",
+
+"Ask a few Questions":
+"Process Overview: Failed to explain the refinance process and purpose of discovery questions.",
+
+"Benefits To Refinancing":
+"Process Overview: Failed to explain refinancing benefits including lower payments and product refunds.",
+
+"Ask Customer To Find RIC":
+"Process Overview: Failed to ask the customer to look for their RIC.",
+
+"Explain Refunds":
+"Process Overview: Failed to explain the What, Why, and How Much of product refunds.",
+
+"How Long Keeping Vehicle":
+"Discovery: Failed to ask how long the customer plans on keeping the vehicle.",
+
+"Did You Purchase GAP":
+"Discovery: Failed to determine GAP ownership.",
+
+"Confirm Miles/Warranty Status":
+"Discovery: Failed to verify vehicle mileage and warranty status.",
+
+"Warranty Discovery":
+"Discovery: Failed to determine warranty ownership or repair history.",
+
+"GAP Refund":
+"Value Build (GAP): Failed to explain GAP refund.",
+
+"Replacement GAP":
+"Value Build (GAP): Failed to position replacement GAP.",
+
+"Negative Equity Protection":
+"Value Build (GAP): Failed to explain negative equity protection.",
+
+"Warranty Coverage Length":
+"Value Build (Warranty): Failed to ask how long warranty coverage lasts.",
+
+"Warranty Refund":
+"Value Build (Warranty): Failed to explain warranty refund.",
+
+"Warranty Better Longer Cheaper":
+"Value Build (Warranty): Failed to position warranty as better, longer, and less expensive.",
+
+"Warranty Why Not Purchased":
+"Value Build (Warranty): Failed to ask why the customer did not purchase warranty.",
+
+"Warranty Better Coverage":
+"Value Build (Warranty): Failed to position improved warranty coverage.",
+
+"Warranty Lower Cost":
+"Value Build (Warranty): Failed to position lower warranty cost.",
+
+"Front Load Disclosure":
+"Option Pitch: Failed to provide Front Load Disclosure.",
+
+"Option Pitch Disclosure":
+"Option Pitch: Failed to disclose if the pitch is an Option Pitch.",
+
+"Pre-Pitch Benefits":
+"Pitch: Failed to provide pre-pitch benefits.",
+
+"Mandatory Disclosure":
+"Pitch: Failed to provide Mandatory Disclosure.",
+
+"Rate Disclosure":
+"Pitch: Failed to disclose the interest rate.",
+
+"Term Disclosure":
+"Pitch: Failed to disclose the loan term.",
+
+"Payment Disclosure":
+"Pitch: Failed to disclose the monthly payment.",
+
+"Product Disclosure":
+"Pitch: Failed to disclose included products.",
+
+"Lower Rate":
+"Benefits Recap: Failed to reinforce lower rate benefits.",
+
+"Lower Payment":
+"Benefits Recap: Failed to reinforce lower payment benefits.",
+
+"Skipped Payments":
+"Benefits Recap: Failed to reinforce skipped payment benefits.",
+
+"Product Refunds":
+"Benefits Recap: Failed to reinforce product refund benefits.",
+
+"Ownership Time Reference":
+"Benefits Recap: Failed to reference customer ownership time when reinforcing warranty value.",
+
+"Premium Wheels":
+"EDGE Offer: Failed to verify premium wheel eligibility.",
+
+"Keyless Entry":
+"EDGE Offer: Failed to verify keyless entry eligibility.",
+
+"Prior Wheel/Tire Replacement":
+"EDGE Offer: Failed to verify wheel/tire replacement history.",
+
+"EDGE Pitch":
+"EDGE Offer: Failed to offer EDGE when available.",
+
+"Collect Drivers License":
+"One Call Close: Failed to attempt collection of the customer's driver's license.",
+
+"Confirm Address":
+"One Call Close: Failed to confirm customer address.",
+
+"Confirm Email":
+"One Call Close: Failed to confirm customer email address.",
+
+"Verify Income":
+"One Call Close: Failed to verify customer income information.",
+
+"Vehicle Registration":
+"One Call Close: Failed to verify vehicle registration state.",
+
+"Bookout Complete":
+"One Call Close: Failed to complete required vehicle bookout.",
+
+"Send Stips Text":
+"One Call Close: Failed to send stipulations while on the phone.",
+
+"Printer Access":
+"Doc Process: Failed to verify printer access.",
+
+"Notary Access":
+"Doc Process: Failed to verify notary access.",
+
+"Docusign":
+"Doc Process: Failed to explain Docusign process.",
+
+"POA":
+"Doc Process: Failed to explain POA requirements.",
+
+"Title Documents":
+"Doc Process: Failed to explain title document requirements.",
+
+"Next Payment Due":
+"Doc Process: Failed to discuss the customer's next payment due date.",
+
+"UPS Tie Down":
+"Doc Process: Failed to establish a UPS return timeline.",
+
+"Recap Payment":
+"Closing Statement: Failed to recap payment.",
+
+"Recap Rate":
+"Closing Statement: Failed to recap rate.",
+
+"Recap Term":
+"Closing Statement: Failed to recap term.",
+
+"Recap Products":
+"Closing Statement: Failed to recap products included in the loan.",
+
+"Opt Out Language":
+"Closing Statement: Failed to explain product opt-out language."
+
+};
+
+const coachingNarratives = {
+
+"Identify AA and Yourself":
+"Intro: Opportunity to improve introduction and company identification.",
+
+"Confirm Name of Person":
+"Intro: Opportunity to improve customer verification.",
+
+"Congratulate":
+"Intro: Opportunity to build rapport by congratulating the customer.",
+
+"Call Recording Disclosure":
+"Intro: Opportunity to improve call recording disclosure delivery.",
+
+"First Time Refinancing":
+"Process Overview: Opportunity to better understand the customer's refinance experience.",
+
+"Ask a few Questions":
+"Process Overview: Opportunity to provide a clearer explanation of the refinance process.",
+
+"Benefits To Refinancing":
+"Process Overview: Opportunity to better explain refinancing benefits.",
+
+"Ask Customer To Find RIC":
+"Process Overview: Opportunity to better encourage the customer to locate the RIC.",
+
+"Explain Refunds":
+"Process Overview: Opportunity to better explain product refunds.",
+
+"How Long Keeping Vehicle":
+"Discovery: Opportunity to better explore vehicle ownership plans.",
+
+"Did You Purchase GAP":
+"Discovery: Opportunity to better explore GAP ownership.",
+
+"Confirm Miles/Warranty Status":
+"Discovery: Opportunity to improve warranty and mileage verification.",
+
+"Warranty Discovery":
+"Discovery: Opportunity to better explore warranty ownership.",
+
+"GAP Refund":
+"Value Build (GAP): Opportunity to strengthen GAP refund education.",
+
+"Replacement GAP":
+"Value Build (GAP): Opportunity to better position replacement GAP.",
+
+"Negative Equity Protection":
+"Value Build (GAP): Opportunity to strengthen negative equity protection discussion.",
+
+"Warranty Coverage Length":
+"Value Build (Warranty): Opportunity to better explore warranty coverage length.",
+
+"Warranty Refund":
+"Value Build (Warranty): Opportunity to strengthen warranty refund education.",
+
+"Warranty Better Longer Cheaper":
+"Value Build (Warranty): Opportunity to better position warranty value.",
+
+"Warranty Why Not Purchased":
+"Value Build (Warranty): Opportunity to better explore why warranty was not purchased.",
+
+"Warranty Better Coverage":
+"Value Build (Warranty): Opportunity to better position warranty coverage advantages.",
+
+"Warranty Lower Cost":
+"Value Build (Warranty): Opportunity to better position warranty savings.",
+
+"Front Load Disclosure":
+"Option Pitch: Opportunity to improve Front Load Disclosure delivery.",
+
+"Option Pitch Disclosure":
+"Option Pitch: Opportunity to further disclose if we are doing an Option Pitch.",
+
+"Pre-Pitch Benefits":
+"Pitch: Opportunity to better establish value before presenting terms.",
+
+"Lower Rate":
+"Benefits Recap: Opportunity to reinforce lower rate savings.",
+
+"Lower Payment":
+"Benefits Recap: Opportunity to reinforce lower payment savings.",
+
+"Skipped Payments":
+"Benefits Recap: Opportunity to better highlight skipped payment benefits.",
+
+"Product Refunds":
+"Benefits Recap: Opportunity to reinforce product refund benefits.",
+
+"Personal Story":
+"Benefits Recap: Missed providing personal or customer story about refi benefits.",
+
+"Ownership Time Reference":
+"Benefits Recap: Opportunity to better connect warranty value to ownership plans.",
+
+"EDGE Pitch":
+"EDGE Offer: Opportunity to improve EDGE presentation and transition.",
+
+"Confirm Address":
+"One Call Close: Opportunity to improve address verification.",
+
+"Confirm Email":
+"One Call Close: Opportunity to improve email verification.",
+
+"Verify Income":
+"One Call Close: Opportunity to improve income verification.",
+
+"Bookout Complete":
+"One Call Close: Opportunity to improve vehicle bookout process.",
+
+"Send Stips Text":
+"One Call Close: Opportunity to send stipulations while customer is still on the phone.",
+
+"Docusign":
+"Doc Process: Opportunity to better explain Docusign requirements.",
+
+"POA":
+"Doc Process: Opportunity to better explain POA requirements.",
+
+"Title Documents":
+"Doc Process: Opportunity to better explain title documentation requirements.",
+
+"Next Payment Due":
+"Doc Process: Opportunity to create stronger tie-downs around payment timing.",
+
+"Recap Payment":
+"Closing Statement: Opportunity to reinforce payment recap.",
+
+"Recap Rate":
+"Closing Statement: Opportunity to reinforce rate recap.",
+
+"Recap Term":
+"Closing Statement: Opportunity to reinforce term recap.",
+
+"Recap Products":
+"Closing Statement: Opportunity to reinforce included products.",
+
+"Opt Out Language":
+"Closing Statement: Opportunity to better explain opt-out language."
+
+};
+
+const sectionsContainer =
+document.getElementById("sectionsContainer");
+
+for(const [sectionName,milestones] of Object.entries(sections)){
+
+let sectionHTML = `
+
+<div class="section">
+
+<div class="section-header"
+onclick="toggleSection(this)">
+${sectionName}
+</div>
+
+<div class="section-body">
+
+<button class="utility-btn"
+onclick="sectionScore(this,'Pass')">
+Pass All </button>
+
+<button class="utility-btn"
+onclick="sectionScore(this,'N/A')">
+N/A All </button>
+`;
+
+if(sectionName==="Quick Value Build"){
+
+sectionHTML += `
+
+<div class="card">
+
+<h4>GAP Situation</h4>
+
+<select id="gapType" onchange="toggleValueBuild()">
+
+<option value="">Select</option>
+
+<option value="with">
+Customer Has GAP
+</option>
+
+<option value="without">
+Customer Doesn't Have GAP
+</option>
+
+<option value="unsure">
+Unable To Determine
+</option>
+
+</select>
+
+<br><br>
+
+<div id="gapWith" style="display:none">
+
+<h4>GAP Refund</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','GAP Refund')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','GAP Refund')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','GAP Refund')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','GAP Refund')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="GAP Refund">
+
+</div>
+
+<h4>Replacement GAP</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Replacement GAP')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Replacement GAP')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Replacement GAP')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Replacement GAP')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Replacement GAP">
+
+</div>
+
+</div>
+
+<div id="gapWithout" style="display:none">
+
+<h4>Negative Equity Protection</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Negative Equity Protection')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Negative Equity Protection')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Negative Equity Protection')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Negative Equity Protection')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Negative Equity Protection">
+
+</div>
+
+</div>
+
+<div id="gapUnsure" style="display:none">
+
+<textarea
+id="gapManualNotes"
+placeholder="Manual GAP Value Build Notes">
+</textarea>
+
+</div>
+
+<hr>
+
+<h4>Warranty Situation</h4>
+
+<select id="warrantyType" onchange="toggleValueBuild()">
+
+<option value="">Select</option>
+
+<option value="with">
+Customer Has Warranty
+</option>
+
+<option value="without">
+Customer Doesn't Have Warranty
+</option>
+
+<option value="unsure">
+Unable To Determine
+</option>
+
+</select>
+
+<br><br>
+
+<div id="warrantyWith" style="display:none">
+
+<h4>Warranty Coverage Length</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Warranty Coverage Length')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Warranty Coverage Length')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Warranty Coverage Length')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Warranty Coverage Length')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Warranty Coverage Length">
+
+</div>
+
+<h4>Warranty Refund</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Warranty Refund')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Warranty Refund')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Warranty Refund')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Warranty Refund')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Warranty Refund">
+
+</div>
+
+<h4>Warranty Better Longer Cheaper</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Warranty Better Longer Cheaper')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Warranty Better Longer Cheaper')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Warranty Better Longer Cheaper')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Warranty Better Longer Cheaper')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Warranty Better Longer Cheaper">
+
+</div>
+
+</div>
+
+<div id="warrantyWithout" style="display:none">
+
+<h4>Warranty Why Not Purchased</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Warranty Why Not Purchased')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Warranty Why Not Purchased')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Warranty Why Not Purchased')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Warranty Why Not Purchased')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Warranty Why Not Purchased">
+
+</div>
+
+<h4>Warranty Better Coverage</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Warranty Better Coverage')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Warranty Better Coverage')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Warranty Better Coverage')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Warranty Better Coverage')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Warranty Better Coverage">
+
+</div>
+
+<h4>Warranty Lower Cost</h4>
+
+<div class="button-row">
+
+<button class="score-btn"
+onclick="setScore(this,'Pass','Warranty Lower Cost')">Pass</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Fail','Warranty Lower Cost')">Fail</button>
+
+<button class="score-btn"
+onclick="setScore(this,'Coaching','Warranty Lower Cost')">Coaching</button>
+
+<button class="score-btn"
+onclick="setScore(this,'N/A','Warranty Lower Cost')">N/A</button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Warranty Lower Cost">
+
+</div>
+
+</div>
+
+<div id="warrantyUnsure" style="display:none">
+
+<textarea
+id="warrantyManualNotes"
+placeholder="Manual Warranty Value Build Notes">
+</textarea>
+
+</div>
+
+</div>
+
+`;
+
+sectionHTML += `
+
+</div>
+</div>
+`;
+
+sectionsContainer.innerHTML += sectionHTML;
+
+continue;
+
+}
+
+if(sectionName==="Objection Handling"){
+
+sectionHTML += `
+
+<div class="card">
+
+<h4>Does Customer Have Objection?</h4>
+
+<select id="objectionType"
+onchange="toggleObjectionFields()">
+
+<option value="">
+Select
+</option>
+
+<option value="yes">
+Yes
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+<div id="objectionFields"
+style="display:none">
+
+<h4>Customer Objection</h4>
+
+<textarea
+id="customerObjection"
+placeholder="Enter customer objection">
+</textarea>
+
+<h4>Acknowledge</h4>
+
+<textarea
+id="acknowledgeResponse"
+placeholder="What did the LC acknowledge?">
+</textarea>
+
+<h4>Ask / Anchor</h4>
+
+<textarea
+id="askAnchorResponse"
+placeholder="What did the LC ask or anchor to?">
+</textarea>
+
+<h4>Advise / Educate</h4>
+
+<textarea
+id="adviseEducateResponse"
+placeholder="What did the LC educate the customer on?">
+</textarea>
+
+<h4>Reinforce Value</h4>
+
+<textarea
+id="reinforceValueResponse"
+placeholder="How did the LC reinforce value?">
+</textarea>
+
+</div>
+
+</div>
+
+`;
+
+sectionHTML += `
+
+</div>
+</div>
+
+`;
+
+sectionsContainer.innerHTML += sectionHTML;
+
+continue;
+
+}
+
+
+milestones.forEach(milestone=>{
+
+if(milestone === "Branding Statement Input"){
+
+sectionHTML += `
+
+<div class="milestone">
+
+<div>Branding Statement</div>
+
+<textarea 
+id="brandingStatement"
+placeholder="Enter branding statement here"
+></textarea>
+
+<input type="hidden"
+class="score-value"
+data-milestone="Branding Statement Input">
+
+</div>
+
+`;
+
+return;
+
+}
+
+if(milestone === "HLKV"){
+
+sectionHTML += `
+
+<div class="milestone">
+
+<div>HLKV (how long they're keeping the vehicle)</div>
+
+<input id="hlkv" placeholder="Enter HLKV">
+
+<input type="hidden"
+class="score-value"
+data-milestone="HLKV">
+
+</div>
+
+`;
+
+return;
+
+}
+
+if(milestone === "HLKV Used in Value Build"){
+
+sectionHTML += `
+
+<div class="milestone">
+
+<div>Did the agent use HLKV in the value build?</div>
+
+<select id="hlkvValueBuild">
+  <option value="">Select</option>
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+  <option value="N/A">N/A</option>
+</select>
+
+<input type="hidden"
+class="score-value"
+data-milestone="HLKV Used in Value Build">
+
+</div>
+
+`;
+
+return;
+
+}
+
+if(milestone === "HLKV Used in Benefits Recap"){
+
+sectionHTML += `
+
+<div class="milestone">
+
+<div>Did the agent use HLKV in the benefits recap?</div>
+
+<select id="hlkvBenefitsRecap">
+  <option value="">Select</option>
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+  <option value="N/A">N/A</option>
+</select>
+
+<input type="hidden"
+class="score-value"
+data-milestone="HLKV Used in Benefits Recap">
+
+</div>
+
+`;
+
+return;
+
+}
+
+sectionHTML += `
+
+<div class="milestone">
+
+<div>${milestone}</div>
+
+<div class="button-row">
+
+<button class="score-btn pass-btn"
+onclick="setScore(this,'Pass','${milestone}')">
+Pass </button>
+
+<button class="score-btn fail-btn"
+onclick="setScore(this,'Fail','${milestone}')">
+Fail </button>
+
+<button class="score-btn coaching-btn"
+onclick="setScore(this,'Coaching','${milestone}')">
+Coaching </button>
+
+<button class="score-btn na-btn"
+onclick="setScore(this,'N/A','${milestone}')">
+N/A </button>
+
+<input type="hidden"
+class="score-value"
+data-milestone="${milestone}"
+value="">
+
+</div>
+
+</div>
+
+`;
+
+});
+
+sectionHTML += `
+
+</div>
+</div>
+`;
+
+sectionsContainer.innerHTML += sectionHTML;
+
+}
+
+function toggleValueBuild(){
+
+const gap =
+document.getElementById("gapType").value;
+
+document.getElementById("gapWith").style.display="none";
+document.getElementById("gapWithout").style.display="none";
+document.getElementById("gapUnsure").style.display="none";
+
+if(gap==="with"){
+
+document.getElementById("gapWith").style.display="block";
+
+}
+
+if(gap==="without"){
+
+document.getElementById("gapWithout").style.display="block";
+
+}
+
+if(gap==="unsure"){
+
+document.getElementById("gapUnsure").style.display="block";
+
+}
+
+const warranty =
+document.getElementById("warrantyType").value;
+
+document.getElementById("warrantyWith").style.display="none";
+document.getElementById("warrantyWithout").style.display="none";
+document.getElementById("warrantyUnsure").style.display="none";
+
+if(warranty==="with"){
+
+document.getElementById("warrantyWith").style.display="block";
+
+}
+
+if(warranty==="without"){
+
+document.getElementById("warrantyWithout").style.display="block";
+
+}
+
+if(warranty==="unsure"){
+
+document.getElementById("warrantyUnsure").style.display="block";
+
+}
+
+}
+
+function toggleObjectionFields(){
+
+const objectionType =
+document.getElementById(
+"objectionType"
+)?.value;
+
+document.getElementById(
+"objectionFields"
+).style.display =
+objectionType==="yes"
+? "block"
+: "none";
+
+}
+
+function toggleSection(header){
+
+const body =
+header.nextElementSibling;
+
+body.classList.toggle("hidden");
+
+}
+
+function setScore(button,value,milestone){
+
+const parent =
+button.parentElement;
+
+parent
+.querySelectorAll(".score-btn")
+.forEach(btn=>{
+
+btn.classList.remove(
+"selected-pass",
+"selected-fail",
+"selected-coaching",
+"selected-na"
+);
+
+});
+
+if(value==="Pass"){
+
+button.classList.add("selected-pass");
+
+}
+
+if(value==="Fail"){
+
+button.classList.add("selected-fail");
+
+}
+
+if(value==="Coaching"){
+
+button.classList.add("selected-coaching");
+
+}
+
+if(value==="N/A"){
+
+button.classList.add("selected-na");
+
+}
+
+const hidden =
+parent.querySelector(".score-value");
+
+hidden.value=value;
+
+updateCounts();
+
+}
+
+function sectionScore(button,value){
+
+const body =
+button.closest(".section-body");
+
+body.querySelectorAll(".score-value")
+.forEach(x=>x.value=value);
+
+updateCounts();
+
+}
+
+function updateCounts(){
+
+let pass=0;
+let fail=0;
+let coach=0;
+let na=0;
+
+document
+.querySelectorAll(".score-value")
+.forEach(x=>{
+
+if(x.value==="Pass") pass++;
+if(x.value==="Fail") fail++;
+if(x.value==="Coaching") coach++;
+if(x.value==="N/A") na++;
+
+});
+
+const autoFails =
+document
+.querySelectorAll(".autofail:checked")
+.length;
+
+passCount.innerText=pass;
+failCount.innerText=fail;
+coachCount.innerText=coach;
+naCount.innerText=na;
+autoFailCount.innerText=autoFails;
+
+let result="PASSED";
+
+if(autoFails>0){
+
+result="AUTOFAIL";
+
+}
+else if(fail >= 2){
+
+result="FAILED";
+
+}
+else if(fail === 1){
+
+result="MISSED MILESTONE";
+
+}
+else if(coach>0){
+
+result="COACHING";
+
+}
+
+auditResult.innerText=result;
+
+const banner = document.querySelector(".result-banner");
+
+banner.classList.remove(
+  "result-pass",
+  "result-coaching",
+  "result-missed",
+  "result-fail"
+);
+
+const main = document.querySelector(".main");
+
+main.style.background = "#f5f0ff"; // default
+
+if(result === "PASSED"){
+  main.style.backgroundColor = "#f1f8e9";
+}
+else if(result === "COACHING"){
+  main.style.backgroundColor = "#fffde7";
+}
+else if(result === "MISSED MILESTONE"){
+  main.style.backgroundColor = "#fff3e0";
+}
+else if(result === "FAILED" || result === "AUTOFAIL"){
+  main.style.backgroundColor = "#ffebee";
+}
+
+if(result === "PASSED"){
+  banner.classList.add("result-pass");
+}
+else if(result === "COACHING"){
+  banner.classList.add("result-coaching");
+}
+else if(result === "MISSED MILESTONE"){
+  banner.classList.add("result-missed");
+}
+else if(result === "FAILED" || result === "AUTOFAIL"){
+  banner.classList.add("result-fail");
+}
+
+}
+
+document
+.querySelectorAll(".autofail")
+.forEach(x=>
+x.addEventListener(
+"change",
+updateCounts
+));
+
+function saveDraft(){
+
+const draft={};
+
+document
+.querySelectorAll(".score-value")
+.forEach(x=>{
+
+draft[x.dataset.milestone]=x.value;
+
+});
+
+draft.manager=manager.value;
+draft.lc=lc.value;
+draft.auditId=auditId.value;
+draft.state=state.value;
+draft.savings=savings.value;
+draft.pitch=pitch.value;
+draft.productSold=productSold.value;
+
+draft.objectionType =
+document.getElementById(
+"objectionType"
+)?.value || "";
+
+draft.customerObjection =
+document.getElementById(
+"customerObjection"
+)?.value || "";
+
+draft.acknowledgeResponse =
+document.getElementById(
+"acknowledgeResponse"
+)?.value || "";
+
+draft.askAnchorResponse =
+document.getElementById(
+"askAnchorResponse"
+)?.value || "";
+
+draft.adviseEducateResponse =
+document.getElementById(
+"adviseEducateResponse"
+)?.value || "";
+
+draft.reinforceValueResponse =
+document.getElementById(
+"reinforceValueResponse"
+)?.value || "";
+
+draft.strengths=
+strengths.value;
+
+draft.additionalCoaching=
+additionalCoaching.value;
+
+localStorage.setItem(
+"qaAuditDraft",
+JSON.stringify(draft)
+);
+
+alert("Draft Saved");
+
+}
+
+function loadDraft(){
+
+const draft =
+JSON.parse(
+localStorage.getItem(
+"qaAuditDraft"
+)
+);
+
+if(!draft){
+
+alert("No Draft Found");
+return;
+
+}
+
+manager.value=draft.manager||"";
+lc.value=draft.lc||"";
+auditId.value=draft.auditId||"";
+state.value=draft.state||"";
+savings.value=draft.savings||"";
+pitch.value=draft.pitch||"";
+productSold.value=
+draft.productSold||"";
+
+document.getElementById(
+"objectionType"
+).value =
+draft.objectionType || "";
+
+document.getElementById(
+"customerObjection"
+).value =
+draft.customerObjection || "";
+
+document.getElementById(
+"acknowledgeResponse"
+).value =
+draft.acknowledgeResponse || "";
+
+document.getElementById(
+"askAnchorResponse"
+).value =
+draft.askAnchorResponse || "";
+
+document.getElementById(
+"adviseEducateResponse"
+).value =
+draft.adviseEducateResponse || "";
+
+document.getElementById(
+"reinforceValueResponse"
+).value =
+draft.reinforceValueResponse || "";
+
+toggleObjectionFields();
+
+strengths.value=
+draft.strengths||"";
+
+additionalCoaching.value=
+draft.additionalCoaching||"";
+
+document
+.querySelectorAll(".score-value")
+.forEach(x=>{
+
+if(
+draft[x.dataset.milestone]
+){
+
+x.value =
+draft[x.dataset.milestone];
+
+}
+
+});
+
+updateCounts();
+
+alert("Draft Loaded");
+
+}
+function resetAudit(){
+
+if(!confirm(
+"Reset entire audit?"
+)) return;
+
+auditMode = "normal";
+
+localStorage.removeItem(
+"qaAuditDraft"
+);
+
+location.reload();
+}
+
+function buildValueSummary(){
+
+let gapSummary="";
+let warrantySummary="";
+
+const getScore=name=>{
+
+const row =
+document.querySelector(
+`[data-milestone="${name}"]`
+);
+
+return row ? row.value : "";
+
+};
+
+const gapType =
+document.getElementById("gapType")?.value;
+
+const warrantyType =
+document.getElementById("warrantyType")?.value;
+
+const gapRefund =
+getScore("GAP Refund");
+
+const replacementGap =
+getScore("Replacement GAP");
+
+const negativeEquity =
+getScore("Negative Equity Protection");
+
+if(gapType==="unsure"){
+
+const notes =
+document.getElementById(
+"gapManualNotes"
+)?.value || "";
+
+gapSummary =
+notes.trim()
+?
+`GAP (Manual): ${notes}`
+:
+"GAP (Manual): Unable to determine GAP ownership";
+
+}
+else{
+
+if(
+gapRefund==="Pass" &&
+replacementGap==="Pass"
+){
+
+gapSummary =
+"GAP (Yes): Cx has GAP — Explained pro-rated refund and informed about replacement GAP on the new loan";
+
+}
+else if(
+gapRefund==="Pass" &&
+replacementGap==="Fail"
+){
+
+gapSummary =
+"GAP (No): Cx has GAP — Explained pro-rated refund but didn't inform about replacement GAP";
+
+}
+else if(
+gapRefund==="Fail" &&
+replacementGap==="Pass"
+){
+
+gapSummary =
+"GAP (No): Cx has GAP — Didn't explain about pro-rated refund but positioned replacement GAP on the new loan";
+
+}
+else if(
+gapRefund==="Fail" &&
+replacementGap==="Fail"
+){
+
+gapSummary =
+"GAP (No): Cx has GAP — Didn't explain about pro-rated refund and didn't inform about replacement GAP";
+
+}
+else if(
+negativeEquity==="Pass"
+){
+
+gapSummary =
+"GAP (Yes): Cx didn't have GAP — Explained negative equity protection in the event of a total loss";
+
+}
+else if(
+negativeEquity==="Fail"
+){
+
+gapSummary =
+"GAP (No): Cx didn't have GAP — Didn't explain about negative equity protection in the event of a total loss";
+
+}
+}
+
+const warrantyLength =
+getScore("Warranty Coverage Length");
+
+const warrantyRefund =
+getScore("Warranty Refund");
+
+const warrantyBetter =
+getScore("Warranty Better Longer Cheaper");
+
+const warrantyWhy =
+getScore("Warranty Why Not Purchased");
+
+const warrantyCoverage =
+getScore("Warranty Better Coverage");
+
+const warrantyCost =
+getScore("Warranty Lower Cost");
+
+if(warrantyType==="unsure"){
+
+const notes =
+document.getElementById(
+"warrantyManualNotes"
+)?.value || "";
+
+warrantySummary =
+notes.trim()
+?
+`Warranty (Manual): ${notes}`
+:
+"Warranty (Manual): Unable to determine warranty ownership";
+
+}
+else{
+
+if(
+warrantyLength==="Pass" &&
+warrantyRefund==="Pass" &&
+warrantyBetter==="Pass"
+){
+
+warrantySummary =
+"Warranty (Yes): Cx has extended warranty — Asked how long they were covered, highlighted pro-rated refunds, and positioned our warranty as better, longer, and cheaper";
+
+}
+else if(
+warrantyLength==="Fail" ||
+warrantyRefund==="Fail" ||
+warrantyBetter==="Fail"
+){
+
+warrantySummary =
+"Warranty (No): Cx has extended warranty — Failed to complete all required value building components";
+
+}
+
+if(
+warrantyWhy==="Pass" &&
+warrantyCoverage==="Pass" &&
+warrantyCost==="Pass"
+){
+
+warrantySummary =
+"Warranty (Yes): Cx didn't have warranty — Asked why they didn't purchase warranty and positioned better coverage at a lower cost";
+
+}
+else if(
+warrantyWhy==="Fail" ||
+warrantyCoverage==="Fail" ||
+warrantyCost==="Fail"
+){
+
+warrantySummary =
+"Warranty (No): Cx didn't have warranty — Failed to properly position warranty value and coverage";
+
+}
+}
+
+return {
+
+gapSummary,
+warrantySummary
+
+};
+
+}
+
+function generateSmartPost(){
+
+
+if(users[currentUser].defaultMode === "tyson"){
+  generateTeamPostV2();
+  return;
+}
+
+if(auditMode === "tyson"){
+  generateTeamPostV2();
+}else{
+  generatePost();
+}
+
+}
+
+function generatePost(){
+
+const missed=[];
+const coaching=[];
+
+document
+.querySelectorAll(".score-value")
+.forEach(x=>{
+
+if(
+x.value==="Fail" &&
+missedNarratives[x.dataset.milestone]
+){
+
+missed.push(
+missedNarratives[x.dataset.milestone]
+);
+
+}
+
+if(
+x.value==="Coaching" &&
+coachingNarratives[x.dataset.milestone]
+){
+
+coaching.push(
+coachingNarratives[x.dataset.milestone]
+);
+
+}
+
+});
+
+const autoFails=[];
+
+document
+.querySelectorAll(".autofail:checked")
+.forEach(x=>
+autoFails.push(x.value)
+);
+
+const premiumWheels =
+document.querySelector(
+'[data-milestone="Premium Wheels"]'
+)?.value;
+
+const keylessEntry =
+document.querySelector(
+'[data-milestone="Keyless Entry"]'
+)?.value;
+
+const priorWheel =
+document.querySelector(
+'[data-milestone="Prior Wheel/Tire Replacement"]'
+)?.value;
+
+if(
+
+premiumWheels==="Coaching" &&
+keylessEntry==="Coaching" &&
+priorWheel==="Coaching"
+
+){
+
+coaching.push(
+"Basic Bookout: Missed performing basic bookout prior to offering EDGE."
+);
+
+}
+
+const edgePitch =
+document.querySelector(
+'[data-milestone="EDGE Pitch"]'
+)?.value;
+
+let basicBookout="";
+
+if(
+premiumWheels==="Pass" ||
+keylessEntry==="Pass" ||
+priorWheel==="Pass"
+){
+
+basicBookout =
+"Performed basic bookout";
+
+}
+else if(
+
+premiumWheels==="Fail" ||
+premiumWheels==="Coaching" ||
+
+keylessEntry==="Fail" ||
+keylessEntry==="Coaching" ||
+
+priorWheel==="Fail" ||
+priorWheel==="Coaching"
+
+){
+
+basicBookout =
+"Didn't perform basic bookout";
+
+}
+else{
+
+basicBookout =
+"NA";
+
+}
+
+let edgeSummary="";
+
+if(edgePitch==="Pass"){
+
+edgeSummary =
+"Offered EDGE";
+
+}
+else if(edgePitch==="Fail"){
+
+edgeSummary =
+"Didn't offer EDGE when available";
+
+}
+else{
+
+edgeSummary =
+"NA";
+
+}
+
+const objectionType =
+document.getElementById(
+"objectionType"
+)?.value;
+
+let objectionSummary="";
+let handlingSummary="";
+
+if(objectionType==="yes"){
+
+objectionSummary =
+document.getElementById(
+"customerObjection"
+)?.value || "";
+
+handlingSummary =
+
+"Acknowledge: " +
+
+(
+document.getElementById(
+"acknowledgeResponse"
+)?.value || ""
+)
+
++
+
+"\n\nAsk/Anchor: " +
+
+(
+document.getElementById(
+"askAnchorResponse"
+)?.value || ""
+)
+
++
+
+"\n\nAdvise/Educate: " +
+
+(
+document.getElementById(
+"adviseEducateResponse"
+)?.value || ""
+)
+
++
+
+"\n\nReinforce Value: " +
+
+(
+document.getElementById(
+"reinforceValueResponse"
+)?.value || ""
+);
+
+}
+else{
+
+objectionSummary =
+"No objections raised";
+
+handlingSummary =
+"Not Applicable";
+
+}
+
+const valueBuild =
+buildValueSummary();
+
+const frontLoad =
+document.querySelector('[data-milestone="Front Load Disclosure"]')?.value;
+
+const optionPitch =
+document.querySelector('[data-milestone="Option Pitch Disclosure"]')?.value;
+
+let pitchLabel = "";
+
+if(frontLoad === "Pass"){
+pitchLabel += "Front Load - FP";
+}
+
+if(optionPitch === "Pass"){
+if(pitchLabel) pitchLabel += "\n- ";
+pitchLabel += "Option Pitch";
+}
+
+let missedOutput = missed.length
+? "- " + missed.join("\n- ")
+: "- No missed milestone(s) observed";
+
+postText.value =
+
+`Audit Result: ${auditResult.innerText}
+Manager: ${manager.value}
+LC: ${lc.value}
+ID: ${auditId.value}
+State: ${state.value}
+Savings: $${savings.value}
+
+Missed Milestone(s):
+
+${missedOutput}
+
+Pitch: ${pitchLabel || pitch.value}
+${pitch.value && pitchLabel
+? "- " + pitch.value
+: ""}
+
+Product Sold:
+
+- ${productSold.value}
+
+Basic Book Out:
+
+- ${basicBookout}
+
+Edge Product Pitch:
+
+- ${edgeSummary}
+
+Value Building:
+
+- ${valueBuild.gapSummary}
+
+- ${valueBuild.warrantySummary}
+
+Cx Objection(s):
+
+- ${objectionSummary}
+
+Handling Objection:
+
+- ${handlingSummary}
+
+Strengths Observed:
+
+- ${strengths.value}
+
+Coaching Opportunity:
+
+- ${coaching.join("\n- ")}
+
+- ${additionalCoaching.value}
+
+AutoFail(s):
+
+* ${autoFails.join("\n- ") || "None"}
+  `;
+
+showTab("post");
+
+}
+
+function generateTeamPostV2(){
+
+const missed=[];
+const coaching=[];
+
+document.querySelectorAll(".score-value").forEach(x=>{
+
+if(x.value==="Fail" && missedNarratives[x.dataset.milestone]){
+missed.push(missedNarratives[x.dataset.milestone]);
+}
+
+if(x.value==="Coaching" && coachingNarratives[x.dataset.milestone]){
+coaching.push(coachingNarratives[x.dataset.milestone]);
+}
+
+});
+
+const valueBuild = buildValueSummary();
+
+const gapLabel =
+valueBuild.gapSummary.includes("(Yes)") ? "Yes" :
+valueBuild.gapSummary.includes("(No)") ? "No" : "";
+
+const warrantyLabel =
+valueBuild.warrantySummary.includes("(Yes)") ? "Yes" :
+valueBuild.warrantySummary.includes("(No)") ? "No" : "";
+
+const premiumWheels =
+document.querySelector('[data-milestone="Premium Wheels"]')?.value;
+
+const keylessEntry =
+document.querySelector('[data-milestone="Keyless Entry"]')?.value;
+
+const priorWheel =
+document.querySelector('[data-milestone="Prior Wheel/Tire Replacement"]')?.value;
+
+let basicBookout = (
+premiumWheels==="Pass" ||
+keylessEntry==="Pass" ||
+priorWheel==="Pass"
+) ? "Performed basic bookout"
+: "Didn't perform basic bookout";
+
+const edgePitch =
+document.querySelector('[data-milestone="EDGE Pitch"]')?.value;
+
+let edgeSummary = edgePitch==="Pass"
+? "Offered EDGE"
+: edgePitch==="Fail"
+? "Didn't offer EDGE"
+: "N/A";
+
+const objectionType =
+document.getElementById("objectionType")?.value;
+
+let objectionSummary="";
+let handlingSummary="";
+
+if(objectionType==="yes"){
+
+objectionSummary =
+document.getElementById("customerObjection")?.value || "";
+
+handlingSummary =
+"Acknowledge: " + (document.getElementById("acknowledgeResponse")?.value || "") +
+"\n\nAsk/Anchor: " + (document.getElementById("askAnchorResponse")?.value || "") +
+"\n\nAdvise/Educate: " + (document.getElementById("adviseEducateResponse")?.value || "") +
+"\n\nReinforce Value: " + (document.getElementById("reinforceValueResponse")?.value || "");
+
+}else{
+
+objectionSummary = "No objections raised";
+handlingSummary = "N/A";
+
+}
+
+const branding =
+document.getElementById("brandingStatement")?.value || "";
+
+const hlkv =
+document.getElementById("hlkv")?.value || "";
+
+const hlkvVB =
+document.getElementById("hlkvValueBuild")?.value || "N/A";
+
+const hlkvRecap =
+document.getElementById("hlkvBenefitsRecap")?.value || "N/A";
+
+
+const frontLoad =
+document.querySelector('[data-milestone="Front Load Disclosure"]')?.value;
+
+const optionPitch =
+document.querySelector('[data-milestone="Option Pitch Disclosure"]')?.value;
+
+let pitchLabel = "";
+
+if(frontLoad === "Pass"){
+pitchLabel += "Front Load - FP";
+}
+
+if(optionPitch === "Pass"){
+if(pitchLabel) pitchLabel += "\n- ";
+pitchLabel += "Option Pitch";
+}
+
+let missedOutput = missed.length
+? "- " + missed.join("\n- ")
+: "- No missed milestone(s) observed";
+
+postText.value =
+
+`Audit Result: ${auditResult.innerText}
+Manager: ${manager.value}
+LC:${lc.value}
+ID:${auditId.value}
+State:${state.value}
+Savings:$${savings.value}
+
+Branding Statement:
+- ${branding}
+
+Missed Milestone(s):
+${missedOutput}
+
+Pitch: ${pitchLabel || pitch.value}
+${pitch.value && pitchLabel
+? "- " + pitch.value
+: ""}
+
+Product Sold:
+- ${productSold.value}
+
+Basic Book Out:
+- ${basicBookout}
+
+Edge Product Pitch:
+- ${edgeSummary}
+
+Value Building:
+- GAP (${gapLabel}):
+${valueBuild.gapSummary}
+
+- Warranty (${warrantyLabel}):
+${valueBuild.warrantySummary}
+
+Cx Objection(s):
+- ${objectionSummary}
+
+Handling Objection:
+- ${handlingSummary}
+
+Additional Questions:
+- HLKV (how long they're keeping the vehicle): ${hlkv}
+- Did the agent use HLKV in the value build? ${hlkvVB}
+- Did the agent use HLKV in the benefits recap? ${hlkvRecap}
+
+Strengths Observed:
+- ${strengths.value}
+
+Coaching Opportunity:
+- ${coaching.join("\n- ")}
+`;
+
+showTab("post");
+
+}
+
+function copyPost(){
+
+navigator.clipboard
+.writeText(postText.value);
+
+alert(
+"Audit Summary Copied"
+);
+
+}
+
+function togglePassword(){
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+
+let currentUser = null;
+
+function login(){
+
+const user = document.getElementById("username").value;
+const pass = document.getElementById("password").value;
+
+if(users[user] && users[user].password === pass){
+
+  currentUser = user;
+
+  localStorage.setItem("qaUser", user);
+
+  const errorEl = document.getElementById("loginError");
+  if(errorEl) errorEl.innerText = "";
+
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("appContainer").style.display = "block";
+
+  applyUserSettings();
+
+}else{
+
+  const errorEl = document.getElementById("loginError");
+  if(errorEl){
+    errorEl.innerText = "Invalid username or password";
+  }
+
+}
+
+}
+
+function logout(){
+
+    localStorage.removeItem("qaUser");
+
+  currentUser = null;
+
+    document.getElementById("appContainer").style.display = "none";
+  document.getElementById("loginScreen").style.display = "flex";
+
+    document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+
+    const errorEl = document.getElementById("loginError");
+  if(errorEl) errorEl.innerText = "";
+
+}
+
+window.onload = function(){
+
+const darkMode = localStorage.getItem("darkMode");
+
+if(darkMode === "true"){
+  document.body.classList.add("dark-mode");
+
+  const toggle = document.querySelector(".theme-switch input");
+  if(toggle){
+    toggle.checked = true;
+  }
+}
+
+const savedUser = localStorage.getItem("qaUser");
+
+if(savedUser && users[savedUser]){
+
+  currentUser = savedUser;
+
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("appContainer").style.display="block";
+
+  applyUserSettings();
+
+}
+
+};
+
+
+function applyUserSettings(){
+
+const config = users[currentUser];
+
+auditMode = config.defaultMode || "normal";
+
+document.querySelector(".header h2").innerText =
+`QA Audit Form - ${currentUser.charAt(0).toUpperCase() + currentUser.slice(1)}`;
+
+document.getElementById("userDisplay").innerText =
+"Logged in as: " + currentUser;
+
+document.querySelectorAll("#modeToggle .score-btn")
+.forEach(btn => {
+  btn.classList.remove("selected-pass");
+});
+
+const buttons = document.querySelectorAll("#modeToggle .score-btn");
+
+if(auditMode === "normal"){
+  buttons[0].classList.add("selected-pass");
+}else if(auditMode === "tyson"){
+  buttons[1].classList.add("selected-pass");
+}
+
+applyMode();
+
+}
+
+function showTab(tab){
+
+auditTab.classList.add("hidden");
+autofailTab.classList.add("hidden");
+postTab.classList.add("hidden");
+
+document
+.getElementById(tab+"Tab")
+.classList.remove("hidden");
+
+}
+
+function setMode(button, mode){
+
+auditMode = mode;
+
+document.querySelectorAll("#modeToggle .score-btn")
+.forEach(btn=>{
+btn.classList.remove(
+"selected-pass",
+"selected-fail",
+"selected-coaching",
+"selected-na"
+);
+});
+
+button.classList.add("selected-pass");
+
+applyMode();
+
+}
+
+function applyMode(){
+
+document.querySelectorAll('[data-milestone="Branding Statement Input"]')
+.forEach(el=>{
+if(el.closest(".section")){
+el.closest(".section").style.display =
+auditMode === "tyson" ? "block" : "none";
+}
+});
+
+[
+"HLKV",
+"HLKV Used in Value Build",
+"HLKV Used in Benefits Recap"
+].forEach(name=>{
+
+
+document.querySelectorAll(`[data-milestone="${name}"]`)
+.forEach(el => {
+
+  const section = el.closest(".section");
+
+  if(section){
+    section.style.display =
+    auditMode === "tyson" ? "block" : "none";
+  }
+
+});
+
+});
+
+}
+
+const passField = document.getElementById("password");
+
+if(passField){
+  passField.addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+      e.preventDefault(); 
+      login();
+    }
+
+  });
+}
+
+
+</script>
+
+</body>
+</html>
+

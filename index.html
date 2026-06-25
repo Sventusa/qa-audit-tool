@@ -843,6 +843,11 @@ function toggleDarkMode(){
     toggle.checked = isDark;
   }
 
+function toggleSection(header){
+  const body = header.nextElementSibling;
+  body.classList.toggle("hidden");
+}
+
 }
 
 let auditMode = "normal";
@@ -1311,7 +1316,7 @@ onclick="toggleSection(this)">
 ${sectionName}
 </div>
 
-<div class="section-body">
+<div class="section-body hidden">
 
 <button class="utility-btn"
 onclick="sectionScore(this,'Pass')">
@@ -1610,13 +1615,11 @@ placeholder="Manual Warranty Value Build Notes">
 
 `;
 
-sectionHTML += `
 
-</div>
+sectionsContainer.innerHTML += sectionHTML + `
+  </div>
 </div>
 `;
-
-sectionsContainer.innerHTML += sectionHTML;
 
 continue;
 
@@ -1691,14 +1694,12 @@ placeholder="How did the LC reinforce value?">
 
 `;
 
-sectionHTML += `
 
+sectionsContainer.innerHTML += sectionHTML + `
+  </div>
 </div>
-</div>
-
 `;
 
-sectionsContainer.innerHTML += sectionHTML;
 
 continue;
 

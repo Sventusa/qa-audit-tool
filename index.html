@@ -2399,49 +2399,134 @@ notes.trim()
 "Warranty (Manual): Unable to determine warranty ownership";
 
 }
-else{
+else {
 
-if(
-warrantyLength==="Pass" &&
-warrantyRefund==="Pass" &&
-warrantyBetter==="Pass"
-){
+  function formatList(items) {
+    if (items.length === 0) return "";
+    if (items.length === 1) return items[0];
+    if (items.length === 2) return items[0] + " and " + items[1];
 
-warrantySummary =
-"Warranty (Yes): Cx has extended warranty — Asked how long they were covered, highlighted pro-rated refunds, and positioned our warranty as better, longer, and cheaper";
+    return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
+  }
+
+  let passed = [];
+  let failed = [];
+
+  const checks = [
+    {
+      value: warrantyLength,
+      passText: "asked how long they were covered",
+      failText: "did not ask how long they were covered"
+    },
+    {
+      value: warrantyRefund,
+      passText: "highlighted getting pro-rated refunds",
+      failText: "did not highlight getting pro-rated refunds"
+    },
+    {
+      value: warrantyBetter,
+      passText: "positioned our warranty as cheaper, longer, and better",
+      failText: "did not position our warranty as cheaper, longer, and better"
+    }
+  ];
+
+  for (let i = 0; i < checks.length; i++) {
+    if (checks[i].value === "Pass") {
+      passed.push(checks[i].passText);
+    } else if (checks[i].value === "Fail") {
+      failed.push(checks[i].failText);
+    }
+  }
+
+  if (failed.length === 0) {
+    warrantySummary =
+      "Warranty (Yes): Cx has extended warranty — " +
+      formatList(passed) +
+      ".";
+  }
+
+  else if (passed.length > 0 && failed.length > 0) {
+    warrantySummary =
+      "Warranty (No): Cx has extended warranty — " +
+      formatList(passed) +
+      ", but " +
+      formatList(failed) +
+      ".";
+  }
+
+  else if (passed.length === 0 && failed.length > 0) {
+    warrantySummary =
+      "Warranty (No): Cx has extended warranty — " +
+      formatList(failed) +
+      ".";
+}
+
+if (
+
+  warrantyWhy === "Pass" &&
+  warrantyCoverage === "Pass" &&
+  warrantyCost === "Pass"
+
+) {
+
+  warrantySummary =
+    "Warranty (Yes): Cx didn't have warranty — Asked why they didn't purchase warranty, positioned better coverage, and presented it at a lower cost.";
 
 }
-else if(
-warrantyLength==="Fail" ||
-warrantyRefund==="Fail" ||
-warrantyBetter==="Fail"
-){
+else {
 
-warrantySummary =
-"Warranty (No): Cx has extended warranty — Failed to complete all required value building components";
+  function formatList(items) {
+    if (items.length === 0) return "";
+    if (items.length === 1) return items[0];
+    if (items.length === 2) return items[0] + " and " + items[1];
 
-}
+    return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
+  }
 
-if(
-warrantyWhy==="Pass" &&
-warrantyCoverage==="Pass" &&
-warrantyCost==="Pass"
-){
+  let passed = [];
+  let failed = [];
 
-warrantySummary =
-"Warranty (Yes): Cx didn't have warranty — Asked why they didn't purchase warranty and positioned better coverage at a lower cost";
+  const checks = [
+    {
+      value: warrantyWhy,
+      passText: "asked why they didn't purchase warranty",
+      failText: "did not ask why they didn't purchase warranty"
+    },
+    {
+      value: warrantyCoverage,
+      passText: "positioned better coverage",
+      failText: "did not properly position better coverage"
+    },
+    {
+      value: warrantyCost,
+      passText: "presented it at a lower cost",
+      failText: "did not present it at a lower cost"
+    }
+  ];
 
-}
-else if(
-warrantyWhy==="Fail" ||
-warrantyCoverage==="Fail" ||
-warrantyCost==="Fail"
-){
+  for (let i = 0; i < checks.length; i++) {
+    if (checks[i].value === "Pass") {
+      passed.push(checks[i].passText);
+    } else if (checks[i].value === "Fail") {
+      failed.push(checks[i].failText);
+    }
+  }
 
-warrantySummary =
-"Warranty (No): Cx didn't have warranty — Failed to properly position warranty value and coverage";
+  if (passed.length > 0 && failed.length > 0) {
+    warrantySummary =
+      "Warranty (No): Cx didn't have warranty — " +
+      formatList(passed) +
+      ", but " +
+      formatList(failed) +
+      ".";
+  }
+  else if (failed.length > 0) {
+    warrantySummary =
+      "Warranty (No): Cx didn't have warranty — " +
+      formatList(failed) +
+      ".";
+  }
 
-}
 }
 
 return {

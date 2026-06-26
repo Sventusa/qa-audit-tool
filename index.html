@@ -2408,7 +2408,7 @@ else {
     return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
   };
 
-  if (warrantyOwnership === "Cx has extended warranty") {
+  if (warrantyType === "with") {
 
     let passed = [];
     let failed = [];
@@ -2461,7 +2461,7 @@ else {
     }
 
   }
-  else if (warrantyOwnership === "Cx didn't have warranty") {
+  else if (warrantyType === "without") {
 
     let passed2 = [];
     let failed2 = [];

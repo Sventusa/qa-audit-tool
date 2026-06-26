@@ -2401,18 +2401,17 @@ notes.trim()
 }
 else {
 
-  function formatList(items) {
+  const formatList = function(items) {
     if (items.length === 0) return "";
     if (items.length === 1) return items[0];
     if (items.length === 2) return items[0] + " and " + items[1];
-
     return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
-  }
+  };
 
   let passed = [];
   let failed = [];
 
-  const checks = [
+  const hasWarrantyChecks = [
     {
       value: warrantyLength,
       passText: "asked how long they were covered",
@@ -2430,11 +2429,11 @@ else {
     }
   ];
 
-  for (let i = 0; i < checks.length; i++) {
-    if (checks[i].value === "Pass") {
-      passed.push(checks[i].passText);
-    } else if (checks[i].value === "Fail") {
-      failed.push(checks[i].failText);
+  for (let i = 0; i < hasWarrantyChecks.length; i++) {
+    if (hasWarrantyChecks[i].value === "Pass") {
+      passed.push(hasWarrantyChecks[i].passText);
+    } else {
+      failed.push(hasWarrantyChecks[i].failText);
     }
   }
 
@@ -2444,8 +2443,7 @@ else {
       formatList(passed) +
       ".";
   }
-
-  else if (passed.length > 0 && failed.length > 0) {
+  else if (passed.length > 0) {
     warrantySummary =
       "Warranty (No): Cx has extended warranty — " +
       formatList(passed) +
@@ -2453,87 +2451,77 @@ else {
       formatList(failed) +
       ".";
   }
-
-  else if (passed.length === 0 && failed.length > 0) {
+  else {
     warrantySummary =
       "Warranty (No): Cx has extended warranty — " +
       formatList(failed) +
       ".";
-}
-
-if (
-
-  warrantyWhy === "Pass" &&
-  warrantyCoverage === "Pass" &&
-  warrantyCost === "Pass"
-
-) {
-
-  warrantySummary =
-    "Warranty (Yes): Cx didn't have warranty — Asked why they didn't purchase warranty, positioned better coverage, and presented it at a lower cost.";
-
-}
-else {
-
-  function formatList(items) {
-    if (items.length === 0) return "";
-    if (items.length === 1) return items[0];
-    if (items.length === 2) return items[0] + " and " + items[1];
-
-    return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
   }
 
-  let passed = [];
-  let failed = [];
+ 
+  if (
+    warrantyWhy === "Pass" &&
+    warrantyCoverage === "Pass" &&
+    warrantyCost === "Pass"
+  ) {
 
-  const checks = [
-    {
-      value: warrantyWhy,
-      passText: "asked why they didn't purchase warranty",
-      failText: "did not ask why they didn't purchase warranty"
-    },
-    {
-      value: warrantyCoverage,
-      passText: "positioned better coverage",
-      failText: "did not properly position better coverage"
-    },
-    {
-      value: warrantyCost,
-      passText: "presented it at a lower cost",
-      failText: "did not present it at a lower cost"
-    }
-  ];
-
-  for (let i = 0; i < checks.length; i++) {
-    if (checks[i].value === "Pass") {
-      passed.push(checks[i].passText);
-    } else if (checks[i].value === "Fail") {
-      failed.push(checks[i].failText);
-    }
-  }
-
-  if (passed.length > 0 && failed.length > 0) {
     warrantySummary =
-      "Warranty (No): Cx didn't have warranty — " +
-      formatList(passed) +
-      ", but " +
-      formatList(failed) +
-      ".";
+      "Warranty (Yes): Cx didn't have warranty — Asked why they didn't purchase warranty, positioned better coverage, and presented it at a lower cost.";
+
   }
-  else if (failed.length > 0) {
-    warrantySummary =
-      "Warranty (No): Cx didn't have warranty — " +
-      formatList(failed) +
-      ".";
+  else {
+
+    let passed2 = [];
+    let failed2 = [];
+
+    const noWarrantyChecks = [
+      {
+        value: warrantyWhy,
+        passText: "asked why they didn't purchase warranty",
+        failText: "did not ask why they didn't purchase warranty"
+      },
+      {
+        value: warrantyCoverage,
+        passText: "positioned better coverage",
+        failText: "did not properly position better coverage"
+      },
+      {
+        value: warrantyCost,
+        passText: "presented it at a lower cost",
+        failText: "did not present it at a lower cost"
+      }
+    ];
+
+    for (let i = 0; i < noWarrantyChecks.length; i++) {
+      if (noWarrantyChecks[i].value === "Pass") {
+        passed2.push(noWarrantyChecks[i].passText);
+      } else {
+        failed2.push(noWarrantyChecks[i].failText);
+      }
+    }
+
+    if (passed2.length > 0) {
+      warrantySummary =
+        "Warranty (No): Cx didn't have warranty — " +
+        formatList(passed2) +
+        ", but " +
+        formatList(failed2) +
+        ".";
+    }
+    else {
+      warrantySummary =
+        "Warranty (No): Cx didn't have warranty — " +
+        formatList(failed2) +
+        ".";
+    }
+
   }
 
 }
 
 return {
-
-gapSummary,
-warrantySummary
-
+  gapSummary,
+  warrantySummary
 };
 
 }

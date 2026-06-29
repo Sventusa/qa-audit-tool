@@ -2482,13 +2482,19 @@ else {
       }
     ];
 
-    for (let i = 0; i < hasWarrantyChecks.length; i++) {
-      if (hasWarrantyChecks[i].value === "Pass") {
-        passed.push(hasWarrantyChecks[i].passText);
-      } else {
-        failed.push(hasWarrantyChecks[i].failText);
-      }
-    }
+for (let i = 0; i < hasWarrantyChecks.length; i++) {
+  if (hasWarrantyChecks[i].value === "Pass") {
+    passed.push(hasWarrantyChecks[i].passText);
+  }
+  else if (hasWarrantyChecks[i].value === "Fail") {
+    failed.push(hasWarrantyChecks[i].failText);
+  }
+}
+
+if (passed.length === 0 && failed.length === 0) {
+  warrantySummary = "Warranty: N/A";
+}
+else
 
     if (failed.length === 0) {
       warrantySummary =
@@ -2535,13 +2541,20 @@ else {
       }
     ];
 
-    for (let i = 0; i < noWarrantyChecks.length; i++) {
-      if (noWarrantyChecks[i].value === "Pass") {
-        passed2.push(noWarrantyChecks[i].passText);
-      } else {
-        failed2.push(noWarrantyChecks[i].failText);
-      }
-    }
+
+for (let i = 0; i < noWarrantyChecks.length; i++) {
+  if (noWarrantyChecks[i].value === "Pass") {
+    passed2.push(noWarrantyChecks[i].passText);
+  }
+  else if (noWarrantyChecks[i].value === "Fail") {
+    failed2.push(noWarrantyChecks[i].failText);
+  }
+}
+
+if (passed2.length === 0 && failed2.length === 0) {
+  warrantySummary = "Warranty: N/A";
+}
+else
 
     if (failed2.length === 0) {
       warrantySummary =

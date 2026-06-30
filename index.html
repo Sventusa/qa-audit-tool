@@ -893,6 +893,7 @@ function toggleSection(header){
 
 let auditMode = "normal";
 
+let selectedAutoFails = [];
 
 const users = {
   "john": {
@@ -2057,10 +2058,7 @@ if(x.value==="N/A") na++;
 
 });
 
-const autoFails =
-document
-.querySelectorAll(".autofail:checked")
-.length;
+const autoFails = selectedAutoFails.length;
 
 passCount.innerText=pass;
 failCount.innerText=fail;
@@ -2136,13 +2134,69 @@ generateSmartPost();
 
 }
 
-document
-.querySelectorAll(".autofail")
-.forEach(x=>
-x.addEventListener(
-"change",
-updateCounts
-));
+function addAutoFail(){
+
+  const select =
+    document.getElementById("autoFailSelector");
+
+  const value = select.value;
+
+  if(!value) return;
+
+  if(selectedAutoFails.includes(value)) return;
+
+  selectedAutoFails.push(value);
+
+  renderAutoFails();
+
+  updateCounts();
+
+}
+
+function removeAutoFail(index){
+
+  selectedAutoFails.splice(index,1);
+
+  renderAutoFails();
+
+  updateCounts();
+
+}
+
+function renderAutoFails(){
+
+  const container =
+    document.getElementById("selectedAutoFails");
+
+  container.innerHTML = "";
+
+  selectedAutoFails.forEach((item,index)=>{
+
+    container.innerHTML += `
+      <div class="card"
+           style="
+             display:flex;
+             justify-content:space-between;
+             align-items:center;
+             padding:8px;
+             margin-bottom:5px;
+           ">
+
+        <span>${item}</span>
+
+        <button
+          class="utility-btn"
+          style="padding:4px 10px;"
+          onclick="removeAutoFail(${index})">
+          ✕
+        </button>
+
+      </div>
+    `;
+
+  });
+
+}
 
 function saveDraft(){
 
@@ -2629,7 +2683,11 @@ coachingNarratives[x.dataset.milestone]
 
 });
 
-const autoFails=[];
+const autoFails = [...selectedAutoFails];
+
+autoFails.forEach(item => {
+  missed.push(`${item} (AutoFail)`);
+});
 
 document
 .querySelectorAll(".autofail:checked")
@@ -2864,14 +2922,6 @@ Coaching Opportunity:
 - ${coaching.join("\n- ")}
 - ${additionalCoaching.value}
 
-AutoFail(s):
-
-* ${autoFails.join("\n- ") || "None"}
-  `;
-
-
-}
-
 function generateTeamPostV2(){
 
 const missed=[];
@@ -2977,6 +3027,10 @@ if(optionPitch === "Pass"){
 if(pitchLabel) pitchLabel += "\n- ";
 pitchLabel += "Option Pitch";
 }
+
+selectedAutoFails.forEach(item => {
+  missed.push(`${item} (AutoFail)`);
+});
 
 let missedOutput = missed.length
 ? "- " + missed.join("\n- ")
@@ -3159,7 +3213,7 @@ applyMode();
 }
 
 function switchTab(tab, el){
-  document.querySelectorAll("#auditTab, #autofailTab, #postTab")
+  document.querySelectorAll("#auditTab, #postTab")
     .forEach(x => x.classList.add("hidden"));
 
   document.getElementById(tab + "Tab").classList.remove("hidden");

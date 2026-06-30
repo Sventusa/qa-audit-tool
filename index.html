@@ -805,6 +805,49 @@ Current Result: <span id="auditResult">PASS</span>
 
 </div>
 
+<div class="section">
+
+  <div class="section-header"
+       onclick="toggleSection(this)">
+    AutoFail Assessment
+  </div>
+
+  <div class="section-body">
+
+    <select id="autoFailSelector">
+
+      <option value="">Select AutoFail</option>
+
+      <option value="Mandatory Disclosure Missed">Mandatory Disclosure Missed</option>
+      <option value="Rate Not Disclosed">Rate Not Disclosed</option>
+      <option value="Term Not Disclosed">Term Not Disclosed</option>
+      <option value="Payment Not Disclosed">Payment Not Disclosed</option>
+      <option value="Products Not Disclosed">Products Not Disclosed</option>
+      <option value="Not going over GAP">Not going over GAP</option>
+      <option value="Not going over Warranty">Not going over Warranty</option>
+      <option value="EDGE Not Offered">EDGE Not Offered</option>
+      <option value="Multiple Terms Presented">Multiple Terms Presented</option>
+      <option value="Proactively asking refi goal">Proactively asking refi goal</option>
+      <option value="No Objection Ask">No Objection Ask</option>
+      <option value="No Rebuttal Attempt">No Rebuttal Attempt</option>
+      <option value="No Intent To Close">No Intent To Close</option>
+      <option value="MD Not Read">MD Not Read</option>
+
+    </select>
+
+    <button class="utility-btn"
+            onclick="addAutoFail()">
+      Add AutoFail
+    </button>
+
+    <div id="selectedAutoFails"
+         style="margin-top:15px;">
+    </div>
+
+  </div>
+
+</div>
+
 <div id="sectionsContainer"></div>
 
 </div>

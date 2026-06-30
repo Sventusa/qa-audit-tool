@@ -2689,12 +2689,6 @@ autoFails.forEach(item => {
   missed.push(item + " (AutoFail)");
 });
 
-document
-.querySelectorAll(".autofail:checked")
-.forEach(x=>
-autoFails.push(x.value)
-);
-
 const premiumWheels =
 document.querySelector(
 '[data-milestone="Premium Wheels"]'
@@ -2921,6 +2915,9 @@ Coaching Opportunity:
 
 - ${coaching.join("\n- ")}
 - ${additionalCoaching.value}
+`;
+
+}
 
 function generateTeamPostV2(){
 

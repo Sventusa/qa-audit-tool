@@ -2686,7 +2686,7 @@ coachingNarratives[x.dataset.milestone]
 const autoFails = [...selectedAutoFails];
 
 autoFails.forEach(item => {
-  missed.push(`${item} (AutoFail)`);
+  missed.push(item + " (AutoFail)");
 });
 
 document
@@ -3029,7 +3029,7 @@ pitchLabel += "Option Pitch";
 }
 
 selectedAutoFails.forEach(item => {
-  missed.push(`${item} (AutoFail)`);
+  missed.push(item + " (AutoFail)");
 });
 
 let missedOutput = missed.length

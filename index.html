@@ -1200,6 +1200,52 @@ const missedNarratives = {
 
 };
 
+const autoFailNarratives = {
+
+"Mandatory Disclosure Missed":
+"Pitch (AutoFail): Failed to provide Mandatory Disclosure.",
+
+"Rate Not Disclosed":
+"Pitch (AutoFail): Failed to disclose the interest rate.",
+
+"Term Not Disclosed":
+"Pitch (AutoFail): Failed to disclose the loan term.",
+
+"Payment Not Disclosed":
+"Pitch (AutoFail): Failed to disclose the monthly payment.",
+
+"Products Not Disclosed":
+"Pitch (AutoFail): Failed to disclose included products.",
+
+"Not going over GAP":
+"Pitch (AutoFail): Failed to discuss GAP coverage or GAP value.",
+
+"Not going over Warranty":
+"Pitch (AutoFail): Failed to discuss warranty coverage or warranty value.",
+
+"EDGE Not Offered":
+"EDGE (AutoFail): Failed to offer EDGE when eligible.",
+
+"Multiple Terms Presented":
+"Pitch (AutoFail): Presented multiple loan terms during the sales process.",
+
+"Proactively asking refi goal":
+"Pitch (AutoFail): Proactively asked the customer for their refinance goal.",
+
+"No Objection Ask":
+"Handling Objection (AutoFail): Failed to ask for the sale after addressing concerns.",
+
+"No Rebuttal Attempt":
+"Objection Handling: Failed to provide a rebuttal to the customer's objection.",
+
+"No Intent To Close":
+"Pitch (AutoFail): Failed to establish intent to move forward with the refinance.",
+
+"MD Not Read":
+"Pitch (AutoFail): Mandatory Disclosure was not read verbatim."
+
+};
+
 const coachingNarratives = {
 
 "Identify AA and Yourself":
@@ -2684,7 +2730,13 @@ coachingNarratives[x.dataset.milestone]
 const autoFails = [...selectedAutoFails];
 
 autoFails.forEach(item => {
-  missed.push(item + " (AutoFail)");
+
+  if(autoFailNarratives[item]){
+      missed.push(autoFailNarratives[item]);
+  }else{
+      missed.push(item + " (AutoFail)");
+  }
+
 });
 
 const premiumWheels =
@@ -3024,7 +3076,13 @@ pitchLabel += "Option Pitch";
 }
 
 selectedAutoFails.forEach(item => {
-  missed.push(item + " (AutoFail)");
+
+  if(autoFailNarratives[item]){
+      missed.push(autoFailNarratives[item]);
+  }else{
+      missed.push(item + " (AutoFail)");
+  }
+
 });
 
 let missedOutput = missed.length

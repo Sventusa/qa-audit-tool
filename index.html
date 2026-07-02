@@ -830,7 +830,6 @@ Current Result: <span id="auditResult">PASS</span>
       <option value="No Objection Ask">No Objection Ask</option>
       <option value="No Rebuttal Attempt">No Rebuttal Attempt</option>
       <option value="No Intent To Close">No Intent To Close</option>
-      <option value="MD Not Read">MD Not Read</option>
 
     </select>
 
@@ -1253,9 +1252,6 @@ const autoFailNarratives = {
 "No Intent To Close":
 "Pitch (AutoFail): Failed to establish intent to move forward with the refinance.",
 
-"MD Not Read":
-"Pitch (AutoFail): Mandatory Disclosure was not read verbatim."
-
 };
 
 const coachingNarratives = {
@@ -1397,6 +1393,50 @@ const coachingNarratives = {
 
 "Opt Out Language":
 "Closing Statement: Opportunity to better explain opt-out language."
+
+};
+
+const autoFailLabels = {
+
+"Mandatory Disclosure Missed":
+"Not reading MD (Mandatory Disclosure)",
+
+"Rate Not Disclosed":
+"Not disclosing loan terms (Rate)",
+
+"Term Not Disclosed":
+"Not disclosing loan terms (Term)",
+
+"Payment Not Disclosed":
+"Not disclosing loan terms (Payment)",
+
+"Products Not Disclosed":
+"Not disclosing loan terms (Products)",
+
+"Not going over GAP":
+"Not going over GAP",
+
+"Not going over Warranty":
+"Not going over Warranty",
+
+"EDGE Not Offered":
+"Not going over EDGE",
+
+"Multiple Terms Presented":
+"Proactively offered Multiple Terms (Doesnt apply to affiliates)",
+
+"Proactively asking refi goal":
+"Proactively asking for the refi goal of the CX",
+
+"No Objection Ask":
+"No Objection Ask",
+
+"No Rebuttal Attempt":
+"No attempt to overcome Objection",
+
+"No Intent To Close":
+"No Intent To Close",
+
 
 };
 
@@ -2122,26 +2162,40 @@ coachCount.innerText=coach;
 naCount.innerText=na;
 autoFailCount.innerText=autoFails;
 
-let result="PASSED";
 
-if(autoFails>0){
+let result = "PASSED";
 
-result="AUTOFAIL";
+if(autoFails > 0){
+
+    if(autoFails === 1){
+
+        result =
+        "AUTOFAIL — " +
+        autoFailLabels[selectedAutoFails[0]];
+
+    }else{
+
+        result =
+        "AUTOFAIL — Multiple AutoFails (" +
+        autoFails +
+        ")";
+
+    }
 
 }
 else if(fail >= 2){
 
-result="FAILED";
+    result = "FAILED";
 
 }
 else if(fail === 1){
 
-result="MISSED MILESTONE";
+    result = "MISSED MILESTONE";
 
 }
-else if(coach>0){
+else if(coach > 0){
 
-result="COACHING";
+    result = "COACHING";
 
 }
 
@@ -2169,7 +2223,10 @@ else if(result === "COACHING"){
 else if(result === "MISSED MILESTONE"){
   main.style.backgroundColor = "#fff3e0";
 }
-else if(result === "FAILED" || result === "AUTOFAIL"){
+else if(
+  result === "FAILED" ||
+  result.startsWith("AUTOFAIL")
+){
   main.style.backgroundColor = "#ffebee";
 }
 
@@ -2182,7 +2239,10 @@ else if(result === "COACHING"){
 else if(result === "MISSED MILESTONE"){
   banner.classList.add("result-missed");
 }
-else if(result === "FAILED" || result === "AUTOFAIL"){
+else if(
+  result === "FAILED" ||
+  result.startsWith("AUTOFAIL")
+){
   banner.classList.add("result-fail");
 }
 
